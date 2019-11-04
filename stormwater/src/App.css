@@ -2,3 +2,15 @@
   text-align: center;
 }
 
+/* .Gage {
+  width: 2px;
+   height: 2px ;
+   color:red; 
+   z-index: 2;
+} */
+
+.Map {
+  width: 100%;
+  height: 1100px;
+  border: 1px solid black;
+}
