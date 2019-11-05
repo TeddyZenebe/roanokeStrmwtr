@@ -27,12 +27,12 @@ class GageData extends React.Component {
         }
         const time =this.state.newData.value.timeSeries[0].values[0].value[0].dateTime
         const discharge =this.state.newData.value.timeSeries[0].values[0].value[0].value
-
+        const name = this.state.newData.value.timeSeries[0].sourceInfo.siteName
         console.log(time)
         console.log(discharge)
         return(<div className='data'>
                  
-                 {this.state.newData.name}
+                 <h3>{name}</h3>
                  <h3>recorded time {time}</h3>
                  <h3>recorded discharge {discharge} ft3/s</h3>
                  

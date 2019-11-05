@@ -2,6 +2,7 @@ import React from 'react';
 import { Scene } from '@esri/react-arcgis';
 import './App.css';
 import GageData from './components/GageData.js'
+import Gagehydro from './components/Gagehydrograph.js'
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
       </div>
      <div className='Data'>
        <GageData />
+       <Gagehydro />
      </div>
       
     </div>
