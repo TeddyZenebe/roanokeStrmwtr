@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 
-class GageData extends React.Component {
+class WaterDepth extends React.Component {
     constructor(){
         super()
         this.state={
@@ -11,7 +11,7 @@ class GageData extends React.Component {
     }
     componentDidMount(){
        
-        axios.get('https://waterservices.usgs.gov/nwis/iv/?format=json&indent=on&sites=02055000&parameterCd=00060')
+        axios.get('https://waterservices.usgs.gov/nwis/iv/?format=json&indent=on&sites=02055000&parameterCd=00065')
              .then((res) => {this.setState({newData: res.data})})
              .catch((err) => {console.log( err)})
     }
@@ -24,21 +24,21 @@ class GageData extends React.Component {
                 <div>is loading</div>
             )
         }
-        const time =`${new Date(this.state.newData.value.timeSeries[0].values[0].value[0].dateTime)}`
-        const discharge =this.state.newData.value.timeSeries[0].values[0].value[0].value
+        const WaterDepthvalue =this.state.newData.value.timeSeries[0].values[0].value[0].value
         const name = this.state.newData.value.timeSeries[0].sourceInfo.siteName
-       
+        const time = `${new Date(this.state.newData.value.timeSeries[0].values[0].value[0].dateTime)}`
+
         return(<div className='data'>
                  
                  <h3>{name}</h3>
                  <h4>{time}</h4>
-                 <h3>Discharge {discharge} ft3/s</h3>
+                 <h3>Water Depth {WaterDepthvalue} ft</h3>
                  
                 
                </div> 
         )
     }
 }
-export default GageData;
+export default WaterDepth;
 
 
