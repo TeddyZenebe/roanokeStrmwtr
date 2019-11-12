@@ -10,9 +10,9 @@ class App extends React.Component {
   constructor(props){
      super(props)
      this.state ={
-      DetailcontainerCSS : 'Detailcontainer',
+      DetailcontainerCSS : 'Detailcontainer1',
       name:'Data',
-      //toggle: true,
+      toggle: true,
       toggle2:true
      }
   }
@@ -50,6 +50,7 @@ class App extends React.Component {
               loaderOptions={{ css: true }}
           />
           </div>
+          <img src={gageimg} className='gageimg' alt='gage' onClick={this.onclickhandeler} />
           <div className={this.state.DetailcontainerCSS}> 
             <Detailcontainer  graphToggle={this.graphToggle} />
           </div>
