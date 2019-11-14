@@ -1,72 +1,67 @@
 import React from 'react';
+import axios from 'axios'
 import CanvasJSReact from '../assets/canvasjs.react'
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
  
-var dataPoints =[
-    { x: new Date(2019, 9, 27), y: 1.5 },
-    { x: new Date(2019, 9, 28), y: 2 },
-    { x: new Date(2019, 9, 29), y: 3 },
-    { x: new Date(2019, 9, 30), y: 4 },
-    { x: new Date(2019, 9, 31), y: 5 },
-    { x: new Date(2019, 10, 1), y: 4.5 },
-    { x: new Date(2019, 10, 2), y: 3 },
-    { x: new Date(2019, 10, 3), y: 3 },
-    { x: new Date(2019, 10, 4), y: 2 },
-    { x: new Date(2019, 10, 5), y: 1 }
-    ];
+
 
 class Gagehydro extends React.Component {
+
+	constructor(){
+        super()
+        this.state={
+			newData: [],
+        }
+    }
+   
+	componentDidMount(){
+       
+        axios.get('https://waterservices.usgs.gov/nwis/iv/?format=json&sites=02055000&period=P2D&parameterCd=00065&siteStatus=all')
+             .then((res) => {this.setState({newData: res.data.value.timeSeries[0].values[0].value})})
+             .catch((err) => {console.log( err)})
+    }
  
 	render() {	
+
+		if(this.state.newData.length ===0){
+			return <div>is loding</div>
+		}
+		
+		const dataPoints = this.state.newData.map((elm)=>{return { x: new Date(elm.dateTime), y: Number(elm.value)}})
+		console.log(dataPoints)
 		const options = {
-			theme: "light2",
+			height:250,
+			animationEnabled: true,
 			title: {
 				text: "Roanoke Hydro"
 			},
 			axisY: {
-				title: "Water Depth",
+				title: "Gage Height, ft",
 				suffix: "ft",
-				includeZero: false
+				includeZero: true,
+				interval: 1,
             },
             axisX: {
-				title: "date time",
-                includeZero: false 
+				title: "timeline",
+				includeZero: false,
+				interval: 1,
+				intervalType: "day"
             },
 			data: [{
-				type: "line",
-				xValueFormatString: "MMM DD",
-				yValueFormatString: "ft#,##0.00",
+				type: "spline",
+				xValueFormatString: "DDD HH:mm:ss",
+				yValueFormatString: "#0.00ft",
 				dataPoints: dataPoints
 			}]
 		}
 		return (
-		<div>
-			<CanvasJSChart options = {options} 
-				//  onRef={ref => this.chart = ref}
-			/>
-			{/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
+		<div className='Canavas'>
+			<CanvasJSChart options = {options} />	
 		</div>
 		);
 	}
 	
-	// componentDidMount(){
-	// 	var chart = this.chart;
-	// 	fetch('https://canvasjs.com/data/gallery/react/nifty-stock-price.json')
-	// 	.then(function(response) {
-    //         console.log(response)
-	// 		return response.json();
-	// 	})
-	// 	.then(function(data) {
-	// 		for (var i = 0; i < data.length; i++) {
-	// 			dataPoints.push({
-	// 				x: new Date(data[i].x),
-	// 				y: data[i].y
-	// 			});
-	// 		}
-	// 		chart.render();
-	// 	});
-	// }
 }
  
 export default Gagehydro;           
