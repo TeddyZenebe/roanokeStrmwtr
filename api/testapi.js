@@ -1,34 +1,31 @@
 const router = require('express').Router();
 const fetch = require('node-fetch')
-const parseString = require('xml2js').parseString;
-//const db = require('../data/topnine-model.js')
+//const parseString = require('xml2js').parseString;
+const db = require('../Database/observedData-model.js')
 
 router.get('/', async(req, res) => {
   
-    const url = "https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=ronv2"
-    const fetched = await fetch(url)
-    console.log(fetched)
-   const json = parseString(fetched, function (err, result) {
-        if(result){return[{"no":"no"}]}else {
-            return [{"no":"no"}]
-        }
-
-    });
-    //const res_feched = await json.json()
-       res.json(json)
+    db.find()
+    .then(data=>{res.json(data)})
 })
 
-// router.post('/', (req, res) => {
-   
-//         db.add(post)
-//             .then(posted => {
-//                 res.status(201).json(posted)
-//             })
-//             .catch(error => {
-//                 res.status(500).json({ message: "There was an error while saving the post to the database" })
-//             })
+router.post('/', async(req, res) => {
+    const url = "https://waterservices.usgs.gov/nwis/iv/?format=json&indent=on&sites=02055000&parameterCd=00060,00065"
+    const fetched = await fetch(url)
+    const json = await fetched.json()
+    const discharge = await json.value.timeSeries[0].values[0].value[0]
+    const level = await json.value.timeSeries[1].values[0].value[0]
+    const value = {dateTime:discharge.dateTime, waterDepth:Number(level.value), discharge:Number(discharge.value)}
     
-// })
+        db.add(value)
+            .then(posted => {
+                res.status(201).json(posted)
+            })
+            .catch(error => {
+                res.status(500).json({ message: "There was an error while saving the post to the database" })
+            })
+    
+})
 
 
 

@@ -3,6 +3,7 @@ import { Scene } from '@esri/react-arcgis';
 import './App.css';
 import Gagehydro from './components/Gagehydrograph.js'
 import Detailcontainer from './components/Detailcontainer'
+import gageimg from './img/gage.gif' 
 
 
 class App extends React.Component {
@@ -49,7 +50,7 @@ class App extends React.Component {
               loaderOptions={{ css: true }}
           />
           </div>
-          <img src='./img/gage.gif' className="gageimg" onClick={this.onclickhandeler} alt='gage'/>
+          <img src= {gageimg} className="gageimg" onClick={this.onclickhandeler} alt='gage'/>
           <div className={this.state.DetailcontainerCSS}> 
             <Detailcontainer  graphToggle={this.graphToggle} />
           </div>
