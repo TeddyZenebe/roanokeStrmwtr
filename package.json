@@ -30,7 +30,7 @@
     "fs": "0.0.1-security",
     "helmet": "^3.21.2",
     "jest": "^24.9.0",
-    "knex": "^0.20.1",
+    "knex": "^2.4.0",
     "node-cron": "^2.0.3",
     "node-fetch": "^2.6.0",
     "nodemon": "^1.19.4",
